@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "UserProfile": {
+      "collection": "users",
+      "fields": {
+        "uid": "string",
+        "email": "string",
+        "displayName": "string",
+        "photoURL": "string",
+        "createdAt": "timestamp",
+        "lastLoginAt": "timestamp"
+      }
+    },
+    "Interaction": {
+      "collection": "users/{userId}/interactions",
+      "fields": {
+        "id": "string",
+        "userId": "string",
+        "title": "string",
+        "summary": "string",
+        "tags": "array",
+        "category": "string",
+        "messages": "array",
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "NotionIntegration": {
+      "collection": "users/{userId}/integrations",
+      "fields": {
+        "id": "string",
+        "provider": "string",
+        "workspaceName": "string",
+        "workspaceIcon": "string",
+        "botId": "string",
+        "destinationPageId": "string",
+        "destinationPageTitle": "string",
+        "encryptedToken": "object",
+        "connectedAt": "timestamp",
+        "updatedAt": "timestamp"
+      }
+    },
+    "NotionExport": {
+      "collection": "users/{userId}/notion_exports",
+      "fields": {
+        "id": "string",
+        "reflectionId": "string",
+        "notionPageId": "string",
+        "notionPageUrl": "string",
+        "destinationPageId": "string",
+        "destinationPageTitle": "string",
+        "exportedAt": "timestamp"
+      }
+    }
+  },
+  "securityRulesSummary": "Only authenticated users can read, create, update, or delete their own user profile, interaction records, Notion integrations, and export history in /users/{userId}/..."
+}

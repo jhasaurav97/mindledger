@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-slate-850: #141d30;
+  --color-slate-750: #1e2c45;
+}
+
+:root {
+  /* Page & Base Surfaces (Eye-comfortable soft blue-slate neutral) */
+  --bg-page: #f5f7fb;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fbfe;
+  --bg-input: #f8fafc;
+  --bg-muted: #eef2f7;
+
+  /* Borders */
+  --border-subtle: #edf2f7;
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Typography */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* Primary / Brand (Sophisticated deep slate / indigo) */
+  --brand-primary: #0f172a;
+  --brand-primary-hover: #1e293b;
+  --brand-primary-text: #ffffff;
+
+  /* AI Accent (Restrained violet / indigo) */
+  --accent-ai: #6366f1;
+  --accent-ai-hover: #4f46e5;
+  --accent-ai-bg: #eef2ff;
+  --accent-ai-border: #e0e7ff;
+  --accent-ai-text: #4338ca;
+
+  /* Reflection Accent (Muted amber / warm gold) */
+  --accent-reflection: #d97706;
+  --accent-reflection-hover: #b45309;
+  --accent-reflection-bg: #fffbeb;
+  --accent-reflection-border: #fef3c7;
+  --accent-reflection-text: #92400e;
+
+  /* Success / Security (Muted emerald) */
+  --accent-success: #059669;
+  --accent-success-bg: #ecfdf5;
+  --accent-success-border: #d1fae5;
+  --accent-success-text: #065f46;
+
+  /* Warning (Muted amber) */
+  --accent-warning: #d97706;
+  --accent-warning-bg: #fffbeb;
+  --accent-warning-border: #fef3c7;
+  --accent-warning-text: #92400e;
+
+  /* Destructive (Muted rose) */
+  --accent-destructive: #e11d48;
+  --accent-destructive-hover: #be123c;
+  --accent-destructive-bg: #fff1f2;
+  --accent-destructive-border: #ffe4e6;
+  --accent-destructive-text: #9f1239;
+
+  /* Focus Ring */
+  --focus-ring: rgba(99, 102, 241, 0.4);
+}
+
+.dark, [data-theme="dark"] {
+  /* Page & Base Surfaces (Deep blue-black / navy slate) */
+  --bg-page: #0b0f19;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #162035;
+  --bg-card: #131b2e;
+  --bg-card-hover: #172138;
+  --bg-input: #172136;
+  --bg-muted: #1c273e;
+
+  /* Borders */
+  --border-subtle: #19243a;
+  --border-default: #223049;
+  --border-strong: #2e4060;
+
+  /* Typography */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Primary / Brand */
+  --brand-primary: #3b82f6;
+  --brand-primary-hover: #2563eb;
+  --brand-primary-text: #ffffff;
+
+  /* AI Accent (Restrained violet / indigo) */
+  --accent-ai: #818cf8;
+  --accent-ai-hover: #a5b4fc;
+  --accent-ai-bg: rgba(99, 102, 241, 0.12);
+  --accent-ai-border: rgba(99, 102, 241, 0.25);
+  --accent-ai-text: #c7d2fe;
+
+  /* Reflection Accent (Softened amber) */
+  --accent-reflection: #fbbf24;
+  --accent-reflection-hover: #fcd34d;
+  --accent-reflection-bg: rgba(245, 158, 11, 0.12);
+  --accent-reflection-border: rgba(245, 158, 11, 0.25);
+  --accent-reflection-text: #fde68a;
+
+  /* Success / Security (Softened emerald) */
+  --accent-success: #34d399;
+  --accent-success-bg: rgba(16, 185, 129, 0.12);
+  --accent-success-border: rgba(16, 185, 129, 0.25);
+  --accent-success-text: #a7f3d0;
+
+  /* Warning (Softened amber) */
+  --accent-warning: #fbbf24;
+  --accent-warning-bg: rgba(245, 158, 11, 0.12);
+  --accent-warning-border: rgba(245, 158, 11, 0.25);
+  --accent-warning-text: #fde68a;
+
+  /* Destructive (Softened rose) */
+  --accent-destructive: #fb7185;
+  --accent-destructive-hover: #f43f5e;
+  --accent-destructive-bg: rgba(244, 63, 94, 0.14);
+  --accent-destructive-border: rgba(244, 63, 94, 0.28);
+  --accent-destructive-text: #fecdd3;
+
+  /* Focus Ring */
+  --focus-ring: rgba(129, 140, 248, 0.45);
+}
+
+@layer base {
+  * {
+    border-color: var(--border-default);
+  }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary);
+    background-color: var(--bg-page);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+.font-serif-journal {
+  font-family: 'Newsreader', Georgia, Cambria, serif;
+}
+
+/* Custom scrollbar matching dark/light themes */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

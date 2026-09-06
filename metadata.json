@@ -1,0 +1,6 @@
+{
+  "name": "Reflections & Journal with Gemini",
+  "description": "User-authenticated multi-turn reflective journaling, Location-Aware Reflections, Personal Memory Graph, Decision Lab, and evidence-grounded AI thought partner powered by Gemini and Firestore.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
