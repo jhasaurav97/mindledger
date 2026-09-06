@@ -6,6 +6,8 @@
 
 MindLedger is a secure, user-authenticated AI journaling and personal intelligence workspace that turns everyday reflections into **evidence-backed insights, long-term memory, and clearer decisions**.
 
+> Internally provisioned as the Cloud Run service `reflections-journal-with-gemini` via Google AI Studio, publicly branded and accessed as **MindLedger**.
+
 Built with **Google AI Studio, Gemini, Firebase, Cloud Firestore, Google Maps Platform, Notion, Gmail, and Google Cloud Run**.
 
 ### Live Demo
@@ -488,7 +490,14 @@ The Gmail integration follows the same least-privilege philosophy:
 
 # Production Deployment
 
-MindLedger is designed to run as a full-stack service on **Google Cloud Run**.
+## Verified Cloud Run Deployment
+
+MindLedger is deployed as the Cloud Run service `reflections-journal-with-gemini` (region `us-west1`), provisioned directly through Google AI Studio's deployment pipeline and mapped to the public domain `mindledger.ai.studio`.
+
+<img width="800" height="381" alt="cloud-run-yaml-redacted" src="https://github.com/user-attachments/assets/cb8664a8-6e01-4234-9429-caf5e71ea284" />
+<img width="800" height="379" alt="cloud-run-metrics-redacted" src="https://github.com/user-attachments/assets/4c30f3eb-b2b0-4840-b7db-9ea231296919" />
+
+The required challenge label is applied at the service level:
 
 ## Prerequisites
 
@@ -792,7 +801,7 @@ MindLedger was developed using **Google AI Studio** with production-oriented cus
 - deployment guidance
 - README generation
 
-The challenge specifically encourages using AI Studio to expand the starter application with custom capabilities and secure external integrations. :contentReference[oaicite:1]{index=1}
+The challenge specifically encourages using AI Studio to expand the starter application with custom capabilities and secure external integrations.
 
 ---
 
