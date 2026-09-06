@@ -1,254 +1,859 @@
-# Reflections & Journal with Gemini and Firestore
+# MindLedger
 
-A production-grade, user-authenticated reflective journaling and AI thought-partner application built with React, Vite, Express, the **Gemini 3.6 Flash API**, **Firebase Authentication**, and **Cloud Firestore**.
+### Grounded AI Thought Partner & Personal Intelligence Workspace
 
----
+> **Reflect → Remember → Understand → Decide**
 
-## 🌟 Architecture & Key Features
+MindLedger is a secure, user-authenticated AI journaling and personal intelligence workspace that turns everyday reflections into **evidence-backed insights, long-term memory, and clearer decisions**.
 
-- **User Identity (Firebase Auth)**: Secure Google Sign-In with popup/federated auth. Zero custom passwords collected or stored.
-- **User-Isolated Database (Cloud Firestore)**: Every reflection session, journal entry, prompt, and AI response is securely saved to `/users/{userId}/interactions/{interactionId}` with owner-bound security rules preventing cross-user data access.
-- **Location-Aware Reflections**: Optional, user-initiated place attachment using Google Maps Platform (Places Autocomplete and interactive map preview with AdvancedMarkerElement). Zero background GPS tracking; location data is isolated within the user's private reflection document.
-- **Personal Memory Graph**: Evidence-backed interactive semantic graph extracting Goals, Themes, Challenges, Decisions, Actions, Wins, and Habits directly from authentic reflections.
-- **Decision Lab**: Transparent, evidence-grounded decision analysis tool evaluating options, criteria, pros, cons, tradeoffs, and uncertainties without hallucinated facts.
-- **Gemini 3.6 Flash Engine**: Provides multi-turn conversational reflection, lateral brainstorming, Socratic questioning, and automated executive summarization with structured insights.
-- **Resilient Fallback Ladder**: Automated model fallback (`gemini-3.6-flash` &rarr; `gemini-3.1-flash-lite` &rarr; `gemini-flash-latest` &rarr; `gemini-3.7-flash`) with error recovery handling (503, 429, 404, 500).
-- **Zero-Hardcoding Hygiene**: All credentials and Gemini API keys are proxied server-side and managed via Secret Manager / environment variables.
+Built with **Google AI Studio, Gemini, Firebase, Cloud Firestore, Google Maps Platform, Notion, Gmail, and Google Cloud Run**.
 
----
+### Live Demo
 
-## 🚀 Step-by-Step Google Cloud Deployment Guide
+**https://mindledger.ai.studio**
 
-Follow these steps to deploy this application directly to **Google Cloud Run**.
+### Source Code
 
-### 1. Environment & Prerequisites
-
-1. Install and initialize the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) (`gcloud` CLI):
-   ```bash
-   gcloud init
-   ```
-
-2. Set your Google Cloud Project ID and default region:
-   ```bash
-   export PROJECT_ID="YOUR_PROJECT_ID"
-   export REGION="us-central1"
-   gcloud config set project $PROJECT_ID
-   ```
-
-3. Enable the required Google Cloud APIs:
-   ```bash
-   gcloud services enable \
-     run.googleapis.com \
-     secretmanager.googleapis.com \
-     firestore.googleapis.com \
-     artifactregistry.googleapis.com \
-     cloudbuild.googleapis.com
-   ```
+**https://github.com/jhasaurav97/mindledger**
 
 ---
 
-### 2. Secret Management Setup
+## Why MindLedger?
 
-Store your Gemini API key securely in Google Cloud Secret Manager so it is never hardcoded:
+Most AI journaling applications stop at:
 
-```bash
-# 1. Create the secret in Secret Manager
-gcloud secrets create GEMINI_API_KEY --replication-policy="automatic"
+> "Write something → get an AI response."
 
-# 2. Add your secret version
-echo -n "YOUR_GEMINI_API_KEY" | gcloud secrets versions add GEMINI_API_KEY --data-file=-
+MindLedger goes further.
 
-# 3. Retrieve your project number
-PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+It creates a private personal intelligence layer where reflections can become:
 
-# 4. Grant the default Cloud Run runtime service account access to read the secret
-gcloud secrets add-iam-policy-binding GEMINI_API_KEY \
-  --member="serviceAccount:${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-  --role="roles/secretmanager.secretAccessor"
+- **Grounded conversations** with Gemini
+- **Searchable evidence** from your own journal
+- **Persistent personal memories** connected through a graph
+- **Transparent decision analysis**
+- **Location-aware reflections**
+- **Structured knowledge exported to Notion**
+- **User-selected Gmail insights**
+- **Long-term personal context** without pretending to know what the journal does not contain
+
+The core design principle is simple:
+
+> **AI should reason from evidence, clearly separate facts from analysis, and never invent personal history.**
+
+---
+
+# Product Highlights
+
+## 1. Reflection Canvas
+
+A multi-turn reflective workspace powered by Gemini.
+
+Users can choose different interaction modes:
+
+- Deep Reflection
+- Brainstorming
+- Socratic Inquiry
+- Action Plan
+
+Each reflection can include:
+
+- title
+- category
+- tags
+- optional location
+- multi-turn Gemini conversation
+- AI synthesis and summary
+
+---
+
+## 2. Ask My Journal
+
+A private, evidence-grounded question-answering layer over the user's own journal.
+
+Users can ask questions such as:
+
+> "What goals have I mentioned recently?"
+
+MindLedger retrieves relevant private reflections and provides:
+
+- grounded answers
+- source citations
+- reflection references
+- direct source opening
+- explicit insufficient-evidence responses
+
+### Grounding behavior
+
+If the requested information does not exist in the user's journal, MindLedger does **not** fabricate an answer.
+
+Instead it returns an explicit:
+
+**Insufficient Evidence in Journal**
+
+This creates a clear epistemic boundary between:
+
+**What the user recorded**  
+and  
+**What Gemini can infer.**
+
+---
+
+## 3. Personal Memory Graph
+
+MindLedger transforms authentic reflections into an evolving personal knowledge graph.
+
+### Memory types
+
+- Goals
+- Themes
+- Challenges
+- Decisions
+- Actions
+- Wins
+- Habits
+
+### Relationships
+
+- supports
+- relates to
+- blocks
+- leads to
+- resolves
+- reinforces
+- part of
+
+The graph supports:
+
+- interactive node exploration
+- drag / pan / zoom
+- search and filtering
+- confidence scores
+- supporting reflections
+- connected memories
+- evidence inspection
+- edit
+- archive / unarchive
+- delete
+
+Every important memory is connected back to its underlying reflection evidence.
+
+---
+
+## 4. Decision Lab
+
+A structured decision-support workspace that evaluates real choices instead of producing unexplained recommendations.
+
+Users define:
+
+- decision question
+- background context
+- options
+- evaluation criteria
+- priorities
+- optional journal evidence
+
+MindLedger produces:
+
+- comparative analysis
+- pros and cons
+- trade-offs
+- risks
+- unknowns
+- confidence
+- concrete next steps
+
+The analysis explicitly separates:
+
+**Facts supplied by the user**  
+**Assumptions**  
+**Gemini analytical reasoning**
+
+This prevents unsupported AI certainty from being presented as fact.
+
+---
+
+## 5. Location-Aware Reflections
+
+MindLedger optionally connects reflections with meaningful places using **Google Maps Platform**.
+
+Users can:
+
+- search for a place
+- select a place from Google Places
+- use their current location after explicit permission
+- view an interactive map
+- attach a location to a reflection
+- remove the location later
+
+### Privacy-first behavior
+
+- location is optional
+- no background location tracking
+- no `watchPosition()`
+- current location is requested only after an explicit user action
+- location is stored with the user's own reflection
+- permission failures do not block journaling
+- manual location entry remains available
+
+---
+
+## 6. Notion Knowledge Bridge
+
+MindLedger supports a real **Notion Public Connection OAuth 2.0 integration**.
+
+Users can:
+
+1. Connect their Notion workspace
+2. Authorize specific pages
+3. Choose a destination page
+4. Export a selected MindLedger reflection
+5. Open the resulting Notion page
+
+Exported pages can contain:
+
+- reflection title
+- date
+- category
+- location
+- original reflection
+- Gemini executive summary
+- key insights
+- identified patterns
+- next action steps
+- relevant Decision Lab context
+- relevant Memory Graph references
+- MindLedger source attribution
+
+User content and Gemini-generated analysis are clearly separated.
+
+---
+
+## 7. Gmail Intelligence Bridge
+
+MindLedger also supports an explicit, user-authorized Gmail integration.
+
+### Privacy model
+
+- read-only Gmail access
+- no automatic inbox synchronization
+- no background inbox monitoring
+- user chooses which email to inspect
+- Gmail credentials are handled server-side
+- integration can be disconnected
+
+This allows MindLedger to use selected email context as an input to personal reflection and decision workflows without turning the application into an always-running inbox scanner.
+
+---
+
+# Security by Design
+
+MindLedger was developed with production-oriented security directives and threat modeling across five major zones:
+
+| Threat Zone | Protection |
+|---|---|
+| **Input Surfaces** | Validation, sanitization, bounded payloads, safe rendering |
+| **Planning & Reasoning** | Prompt-injection boundaries and data/instruction separation |
+| **Tool Execution** | Authenticated APIs, server-side external API calls, least privilege |
+| **Memory & State** | Firebase UID ownership boundaries and user-scoped persistence |
+| **Inter-System Communication** | OAuth protection, token isolation, restricted API access |
+
+## Authentication
+
+MindLedger uses **Firebase Authentication with Google Sign-In**.
+
+No custom application password database is maintained.
+
+Backend APIs independently verify Firebase ID tokens before allowing protected operations.
+
+---
+
+## Firestore Isolation
+
+Personal data is stored under authenticated user boundaries such as:
+
+```text
+/users/{userId}/interactions/{interactionId}
 ```
 
----
+and user-owned integration state is kept under user-specific paths such as:
 
-### 3. Database Security Configuration (Cloud Firestore)
+```text
+/users/{userId}/integrations/{integration}
+```
 
-Deploy the owner-bound security rules to ensure user data isolation:
+Firestore rules enforce owner-based access:
 
 ```javascript
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
     match /users/{userId}/interactions/{interactionId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write:
+        if request.auth != null
+        && request.auth.uid == userId;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
 ```
 
-Deploy rules using the Firebase CLI:
-```bash
-firebase deploy --only firestore:rules
+The backend never trusts a client-supplied UID as the authorization source.
+
+---
+
+## Secret Management
+
+Sensitive credentials are never committed to source control.
+
+Examples include:
+
+```text
+GEMINI_API_KEY
+NOTION_CLIENT_ID
+NOTION_CLIENT_SECRET
+NOTION_ENCRYPTION_KEY
+```
+
+Secrets are supplied through protected server-side configuration.
+
+The browser does not receive:
+
+- Gemini server credentials
+- Notion client secrets
+- Notion access tokens
+- Notion refresh tokens
+- encryption keys
+
+Google Maps uses a separate browser API key protected through application/API restrictions.
+
+---
+
+# Resilient Gemini Architecture
+
+MindLedger uses a model fallback strategy instead of depending on a single Gemini model.
+
+```text
+gemini-3.6-flash
+        ↓
+gemini-3.1-flash-lite
+        ↓
+gemini-flash-latest
+        ↓
+gemini-3.7-flash
+```
+
+Recoverable API failures such as:
+
+- `429`
+- `404`
+- `500`
+- `503`
+
+can trigger fallback behavior before an error is surfaced to the user.
+
+This improves application resilience during model availability or quota issues.
+
+---
+
+# Notion OAuth Security
+
+The Notion integration uses a production-oriented OAuth flow:
+
+```text
+MindLedger
+    ↓
+Firebase-authenticated user
+    ↓
+Notion OAuth authorization
+    ↓
+Protected OAuth state
+    ↓
+Server-side token exchange
+    ↓
+Encrypted user-scoped credential storage
+    ↓
+Authorized Notion destination
+    ↓
+Explicit reflection export
+```
+
+Important protections include:
+
+- cryptographic OAuth state
+- expiration
+- replay protection
+- authenticated UID binding
+- server-side token exchange
+- encrypted credential storage
+- no token exposure through the frontend
+- user-specific integration state
+- graceful disconnect and failure handling
+
+---
+
+# Gmail Integration Security
+
+The Gmail integration follows the same least-privilege philosophy:
+
+- explicit user authorization
+- read-only access
+- no background synchronization
+- server-side credential handling
+- user-scoped integration state
+- disconnect support
+- selected-message workflow rather than unrestricted inbox processing
+
+---
+
+# Technology Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Responsive desktop/mobile UI
+- Light / Dark themes
+
+### Backend
+
+- Node.js
+- Express
+- TypeScript
+
+### AI
+
+- Google Gemini API
+- Multi-turn conversations
+- Evidence-grounded retrieval
+- Structured decision analysis
+- Memory extraction
+- Summarization
+
+### Google Cloud
+
+- Google AI Studio
+- Cloud Run
+- Cloud Firestore
+- Firebase Authentication
+- Secret Manager
+- Google Maps Platform
+- Places API
+- Geocoding
+
+### External Integrations
+
+- Notion OAuth 2.0
+- Gmail OAuth / read-only Gmail access
+
+---
+
+# Architecture
+
+```text
+                         ┌──────────────────────┐
+                         │    MindLedger UI      │
+                         │ React + TypeScript    │
+                         └──────────┬───────────┘
+                                    │
+                           Firebase Authentication
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │   Express Backend     │
+                         │     Cloud Run         │
+                         └───────┬───────┬──────┘
+                                 │       │
+                 ┌───────────────┘       └─────────────────┐
+                 ▼                                         ▼
+        ┌─────────────────┐                       ┌─────────────────┐
+        │   Gemini API    │                       │  Cloud Firestore │
+        │ AI reasoning    │                       │ User-isolated    │
+        └─────────────────┘                       │ persistence      │
+                                                  └─────────────────┘
+                 │
+      ┌──────────┼───────────┬──────────────┐
+      ▼          ▼           ▼              ▼
+   Maps       Notion       Gmail        Secret Manager
 ```
 
 ---
 
-### 4. Cloud Run Deployment Flow
+# Production Deployment
 
-Deploy the containerized full-stack application to Cloud Run with automatic secret injection:
+MindLedger is designed to run as a full-stack service on **Google Cloud Run**.
+
+## Prerequisites
+
+Install and authenticate:
+
+- Google Cloud CLI
+- Firebase CLI
+- Git
+
+Configure your project:
 
 ```bash
-gcloud run deploy reflections-app \
-  --source . \
-  --region $REGION \
-  --platform managed \
-  --allow-unauthenticated \
-  --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest"
+gcloud init
+gcloud config set project YOUR_PROJECT_ID
+```
+
+Enable the required services:
+
+```bash
+gcloud services enable \
+  run.googleapis.com \
+  secretmanager.googleapis.com \
+  firestore.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com
 ```
 
 ---
 
-### 5. Required Campaign Labeling
+## Environment Variables
 
-Apply the mandatory verification label to your Cloud Run service:
+Configure sensitive values through your deployment environment.
 
-```bash
-gcloud run services update reflections-app \
-  --update-labels=dev-tutorial=cloud-run-ai-challenge \
-  --region=$REGION
-```
+Example:
 
----
-
-### 6. Google Maps Platform Setup (Location-Aware Reflections)
-
-For optional interactive Google Maps and Places search:
-
-1. Enable **Maps JavaScript API**, **Places API**, and **Geocoding API** in your Google Cloud project:
-   ```bash
-   gcloud services enable \
-     maps-backend.googleapis.com \
-     places-backend.googleapis.com \
-     geocoding-backend.googleapis.com
-   ```
-2. Create an API key restricted to **HTTP referrers** (your app's domain) and designated APIs (Maps JavaScript API, Places API, Geocoding API):
-   [API Key Restrictions Guide](https://docs.cloud.google.com/api-keys/docs/add-restrictions-api-keys)
-3. Set the environment variable `VITE_GOOGLE_MAPS_API_KEY`:
-   ```bash
-   # In local development:
-   echo 'VITE_GOOGLE_MAPS_API_KEY="AIzaSy..."' >> .env.local
-   ```
-4. *Graceful Fallback:* If no API key is provided, the application automatically enables a non-map fallback where users can type any location manually or select from curated reflective presets.
-
----
-
-## 🔒 Security Threat Model Summary
-
-| Threat Zone | Risk Mitigated | Countermeasure |
-| :--- | :--- | :--- |
-| **Input Surfaces** | Prompt Injection / XSS / Malformed Coordinates | Strict schema validation (`validateReflectionLocation`, coordinate range checks in `[-90, 90]`, `[-180, 180]`), string truncation, prompt delimiters (`<entry>`), zero raw HTML injection. |
-| **Tool / Execution** | Unauthorized API usage / Secret Exfiltration | Server-side proxying for Gemini; Gemini API keys are never exposed to the client. Restrict Google Maps API keys via HTTP referrers. |
-| **Memory & State** | Cross-tenant data leakage | Strict owner-bound Firestore security rules (`request.auth.uid == userId`). Location data is stored only inside the authenticated user's private interaction document. |
-| **Authentication** | Session hijacking / Password theft | Federated Google Sign-In via Firebase Auth. Zero passwords collected or stored. Server-side token verification on API endpoints. |
-| **Location Privacy** | Continuous tracking / Surveillance | No background or continuous GPS monitoring. Location is attached solely through explicit user selection for an individual reflection. Users can view or remove location at any time. |
-
----
-
-## 🧪 Functional Walkthrough & Test Guide
-
-### Test Suite 1: Authentication & Data Isolation
-1. **Google Sign-In**: Open the application, click "Sign in with Google", complete authentication. Verify user profile card appears in top navigation.
-2. **Session Persistence**: Refresh the browser; confirm the user session and loaded reflections persist without re-prompting login.
-3. **Owner-Bound Path Isolation**: Check Firestore console; verify user documents are isolated under `/users/{uid}/interactions/`.
-
-### Test Suite 2: Location-Aware Reflections
-1. **Open Location Picker**: In the Reflection Canvas, locate and click the "Add Location" button. Verify the modal opens with the privacy guarantee banner: *"Location is optional and saved only with this reflection. MindLedger does not track your live location."*
-2. **Search Place or Pick Curated Setting**:
-   - With Google Maps API key: Type in the Places search input and select a place. Verify the interactive map centers with an AdvancedMarker pin.
-   - Without API key: Notice the informative fallback banner. Select a curated preset (e.g. "Cozy Neighborhood Cafe") or enter a custom place name and address.
-3. **Use My Current Location**:
-   - Click the "Use My Current Location" button located directly next to the Places search field (or in the fallback banner).
-   - Verify the button enters a loading state (`Locating...` with spinner) while requesting position.
-   - Confirm your browser prompts for location permission (never prompted automatically before clicking).
-   - Upon granting permission, verify latitude and longitude are retrieved, reverse-geocoded to a human-readable place/address, the interactive map pans to the coordinates, and the place details card displays the location details with the "Attached" status badge.
-   - If permission is denied in browser settings, verify a friendly, dismissible warning banner appears explaining that location permission was denied and manual search remains available.
-4. **Attach Location**: Click "Attach Location". Verify the modal closes and an active location badge appears in the reflection header showing the place name and address.
-5. **Interactive Reflection**: Enter reflection thoughts and click Send. Verify Gemini responds mindfully with location context taken into account as background setting.
-6. **Restoration & Persistence**: Switch to History tab; verify the reflection card displays the location badge. Click to re-open the entry in the canvas; verify the location badge is restored.
-7. **Location Removal**: Click the "X" button on the location badge or click "Remove Location" in the modal. Verify the location is removed and the changes are auto-saved to Firestore without modifying or deleting messages or the title.
-
-### Test Suite 3: Personal Memory Graph
-1. **View Graph**: Click "Memory Graph" in the navigation. Verify interactive canvas renders extracted nodes (Goals, Themes, Wins, Habits, etc.).
-2. **Inspect Supporting Reflection**: Click on a node to view details in the sidebar. Locate "Supporting Reflections"; if a supporting reflection has an attached location, verify the location indicator is displayed alongside its date and title.
-3. **Node Filtering & Semantic Search**: Use the search bar or type filters (e.g., "Goals") to filter the graph in real-time.
-
-### Test Suite 4: Decision Lab
-1. **Create Decision**: Navigate to "Decision Lab", click "New Analysis".
-2. **Enter Context & Options**: Enter a decision question, description, options (e.g. "Option A", "Option B"), and criteria.
-3. **Evidence-Grounded Analysis**: Toggle "Use My Journal Reflections as Evidence", click "Analyze Decision". Verify structured evaluation with pros, cons, tradeoffs, and uncertainties.
-
-### Test Suite 5: Ask My Journal
-1. **Evidence-Grounded Inquiry**: Go to "Ask My Journal", ask a question about your previous reflections.
-2. **Grounding Verification**: Verify Gemini cites specific journal entries and includes location context if relevant.
-3. **Insufficient Evidence Guard**: Ask about an unrelated topic never mentioned in your journal; verify it explicitly states there is not enough evidence in your journal.
-
----
-
-## 9. Notion Knowledge Bridge (Multi-User SaaS Integration)
-
-MindLedger integrates with Notion via Notion Public Connection OAuth 2.0 to export structured reflections with Gemini synthesis.
-
-### OAuth Architecture & Security Boundaries
-- **Backend Token Exchange**: Browser never handles `NOTION_CLIENT_SECRET`, Notion access tokens, or refresh tokens.
-- **AES-256-GCM Vault Encryption**: Tokens are stored encrypted in server-side storage keyed to the authenticated Firebase UID.
-- **State Token Validation**: 10-minute expiring cryptographic state tokens prevent OAuth CSRF.
-- **Configured Redirect URI**: `https://mindledger.ai.studio/api/integrations/notion/callback`
-- **Structured Notion Page Hierarchy**:
-  - Reflection title & date
-  - Category badge & location context (when attached)
-  - Original user reflection text (clearly separated from AI)
-  - Gemini-generated Executive Summary, Key Insights, Identified Patterns, and Next Action Steps
-  - Decision Lab context and Memory Graph references
-  - MindLedger source attribution and interaction ID
-
-### Environment Configuration
 ```env
+GEMINI_API_KEY=your_gemini_key
+
 NOTION_CLIENT_ID=your_notion_client_id
 NOTION_CLIENT_SECRET=your_notion_client_secret
 NOTION_REDIRECT_URI=https://mindledger.ai.studio/api/integrations/notion/callback
-NOTION_ENCRYPTION_KEY=your_32_byte_aes_key
+NOTION_ENCRYPTION_KEY=your_application_encryption_key
+
+VITE_GOOGLE_MAPS_API_KEY=your_restricted_maps_browser_key
+```
+
+**Never commit actual secret values.**
+
+---
+
+## Cloud Run Deployment
+
+Example:
+
+```bash
+gcloud run deploy reflections-journal-with-gemini \
+  --source . \
+  --region us-west1 \
+  --platform managed \
+  --allow-unauthenticated
+```
+
+Configure the required secrets/environment variables in the Cloud Run service configuration.
+
+The application itself performs user authentication before exposing protected journal and integration functionality.
+
+---
+
+# Challenge Verification Label
+
+The Google Cloud Run challenge requires the following service label:
+
+```text
+dev-tutorial=cloud-run-ai-challenge
+```
+
+Apply it with:
+
+```bash
+gcloud run services update reflections-journal-with-gemini \
+  --update-labels=dev-tutorial=cloud-run-ai-challenge \
+  --region=us-west1
 ```
 
 ---
 
-## 10. Geolocation Diagnostic & Verification Walkthrough
+# Development
 
-### Test Case 1: Geolocation Trigger Isolation
-- **Action**: Load the application, open an entry, and open the Location Picker Modal.
-- **Verification**: `navigator.geolocation.getCurrentPosition()` is **NOT** executed on modal open, map load, or page refresh. Network/console logs confirm zero geolocation requests.
+Install dependencies:
 
-### Test Case 2: User-Initiated Detection & Map Centering
-- **Action**: Click the "Use My Current Location" button.
-- **Verification**: Geolocation is triggered only upon click. On success, the map centers on the coordinates, the pin marker updates, reverse geocoding populates the place name/address, and "Attach Location" is enabled.
+```bash
+npm install
+```
 
-### Test Case 3: Error Code Differentiation & Iframe Sandbox Detection
-- **Action**: Test in browser environments with permissions denied or within an embedded iframe preview.
-- **Verification**:
-  - If inside an iframe and blocked, the UI detects iframe status and displays clear guidance with an **"Open in New Tab"** button and quick fallback to **"Use Mindful Preset"** or manual entry.
-  - Distinct messages are displayed for `PERMISSION_DENIED` (code 1), `POSITION_UNAVAILABLE` (code 2), and `TIMEOUT` (code 3).
+Run the application locally:
+
+```bash
+npm run dev
+```
+
+Type-check:
+
+```bash
+npx tsc --noEmit
+```
+
+Production build:
+
+```bash
+npm run build
+```
 
 ---
 
-## 11. Public Legal Documentation Routes (`/privacy` & `/terms`)
+# Functional Verification
 
-MindLedger provides standalone, public-facing legal information pages accessible directly without requiring authentication or redirects:
+MindLedger has been tested across the major product flows.
 
-- **`/privacy`**: Comprehensive MindLedger Privacy Policy detailing data collection (Google identity, reflections, optional location, Notion/Gmail credentials), Gemini AI model processing terms, Firestore owner-bound isolation, user data rights, and transparent security disclosures.
-- **`/terms`**: MindLedger Terms of Service defining the personal intelligence workspace, acceptable use policies, user ownership of thoughts/reflections, AI disclaimer (Gemini is an assistant, not medical/legal/financial advice), third-party integration terms, and liability limits.
+### Authentication
 
-### Architectural & Security Guarantees:
-1. **Public Zero-Auth Access**: Immediate access without Firebase sign-in or session loading spinners.
-2. **Zero Insecure Redirects**: Navigating directly to `https://mindledger.ai.studio/privacy` or `https://mindledger.ai.studio/terms` loads the legal document directly.
-3. **Seamless Navigation**: Users can jump back to the landing page or active journal session with one click without resetting state.
-4. **Theme Responsive**: Full support for both light and dark modes with typographic hierarchy and jump-to-section navigation.
+- Google Sign-In
+- session persistence
+- sign-out
+- re-authentication
+- protected backend endpoints
+- owner-bound Firestore access
 
+### Journal
 
+- create reflection
+- multi-turn Gemini interaction
+- save and restore
+- history
+- summaries
+- evidence-grounded queries
 
+### Ask My Journal
+
+- journal questions
+- evidence citations
+- source opening
+- insufficient-evidence behavior
+
+### Memory Graph
+
+- extraction
+- graph rendering
+- search/filter
+- evidence inspection
+- editing
+- archive/unarchive
+- delete
+
+### Decision Lab
+
+- structured decision creation
+- criteria
+- journal grounding
+- analysis
+- saved decisions
+- deletion
+
+### Maps
+
+- place search
+- interactive map
+- current location
+- permission handling
+- location persistence
+- location removal
+
+### Notion
+
+- OAuth connection
+- authorized destination selection
+- connection persistence
+- reflection export
+- structured Notion page generation
+- disconnect
+
+### Gmail
+
+- OAuth connection
+- read-only email access
+- explicit email selection
+- no background synchronization
+- disconnect
+
+---
+
+# Privacy & Data Principles
+
+MindLedger is designed around explicit user control.
+
+### Core principles
+
+**Private by default**  
+Personal reflections belong to the authenticated user.
+
+**Evidence over invention**  
+Gemini should distinguish recorded facts from analytical interpretation.
+
+**Explicit external access**  
+Notion and Gmail require user authorization.
+
+**Least privilege**  
+Integrations request only the access required for their intended workflow.
+
+**No silent tracking**  
+Location is optional and user initiated.
+
+**Graceful degradation**  
+External integrations should not prevent the core journaling experience from working.
+
+---
+
+# Project Structure
+
+```text
+mindledger/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── legal/
+│   │   ├── AskJournalView.tsx
+│   │   ├── DecisionLabView.tsx
+│   │   ├── EntryEditor.tsx
+│   │   ├── GmailSettingsModal.tsx
+│   │   ├── LocationPickerModal.tsx
+│   │   ├── MemoryGraphView.tsx
+│   │   ├── NotionSettingsModal.tsx
+│   │   └── ...
+│   ├── lib/
+│   │   ├── firebase.ts
+│   │   ├── gmail.ts
+│   │   ├── notion.ts
+│   │   └── theme.tsx
+│   ├── server/
+│   │   ├── gmailRouter.ts
+│   │   └── notionRouter.ts
+│   ├── utils/
+│   ├── App.tsx
+│   └── index.css
+├── firestore.rules
+├── metadata.json
+├── package.json
+├── server.ts
+├── tsconfig.json
+└── vite.config.ts
+```
+
+---
+
+# Demo Flow
+
+For a quick product walkthrough:
+
+```text
+1. Sign in with Google
+        ↓
+2. Create a reflection
+        ↓
+3. Continue a multi-turn Gemini conversation
+        ↓
+4. Open Ask My Journal
+        ↓
+5. Ask a grounded question and inspect citations
+        ↓
+6. Open Memory Graph
+        ↓
+7. Inspect evidence-backed memories
+        ↓
+8. Open Decision Lab
+        ↓
+9. Analyze a real decision using journal evidence
+        ↓
+10. Attach a location
+        ↓
+11. Save a reflection to Notion
+        ↓
+12. Inspect selected Gmail intelligence
+```
+
+This demonstrates that MindLedger is more than a chatbot or simple journal.
+
+---
+
+# Google AI Studio & Custom Instructions
+
+MindLedger was developed using **Google AI Studio** with production-oriented custom instructions covering:
+
+- agentic threat modeling
+- secure coding
+- Firebase/Firestore isolation
+- secret management
+- authentication boundaries
+- prompt-injection defense
+- model fallback
+- functional verification
+- deployment guidance
+- README generation
+
+The challenge specifically encourages using AI Studio to expand the starter application with custom capabilities and secure external integrations. :contentReference[oaicite:1]{index=1}
+
+---
+
+# Why This Project Goes Beyond the Starter
+
+The starter application establishes:
+
+- Firebase authentication
+- Gemini interaction
+- Firestore persistence
+
+MindLedger expands that foundation into a broader personal intelligence product through:
+
+**Grounded journal retrieval**  
++ **Personal Memory Graph**  
++ **Decision Lab**  
++ **Location-aware reflections**  
++ **Notion knowledge export**  
++ **Gmail intelligence**  
++ **production-oriented security boundaries**
+
+The goal is not to add features for the sake of feature count.
+
+The goal is to create one coherent product where personal information can move through a secure pipeline:
+
+```text
+Reflect
+   ↓
+Remember
+   ↓
+Retrieve evidence
+   ↓
+Understand patterns
+   ↓
+Evaluate decisions
+   ↓
+Turn insight into action
+```
+
+---
+
+# License
+
+This project was created as a Google Cloud / Google AI Studio challenge project.
+
+See the repository for the current source and implementation.
+
+---
+
+# Showcase
+
+**Live App:**  
+https://mindledger.ai.studio
+
+**GitHub:**  
+https://github.com/jhasaurav97/mindledger
+
+**Challenge:**  
+Google Cloud Run Build & Deploy Social Challenge
+
+**Hashtag:**  
+`#AccelerateAIwithCloudRun`
+
+---
