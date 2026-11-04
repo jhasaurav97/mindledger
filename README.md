@@ -854,7 +854,7 @@ See the repository for the current source and implementation.
 # Showcase
 
 **Live App:**  
-https://mindledger.ai.studio
+https://mindledger-175n.onrender.com/
 
 **GitHub:**  
 https://github.com/jhasaurav97/mindledger
