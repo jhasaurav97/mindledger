@@ -12,7 +12,7 @@ Built with **Google AI Studio, Gemini, Firebase, Cloud Firestore, Google Maps Pl
 
 ### Live Demo
 
-**https://mindledger.ai.studio**
+**https://mindledger-175n.onrender.com**
 
 ### Source Code
 
