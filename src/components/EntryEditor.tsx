@@ -94,8 +94,15 @@ export const EntryEditor: React.FC<EntryEditorProps> = ({
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Keep one Firestore document ID for every save in the current editing session.
+  // This prevents the initial user-message save and Gemini-response save from
+  // creating two separate archive entries.
+  const activeEntryIdRef = useRef<string>(currentEntry?.id || `entry_${Date.now()}`);
+
   // Sync state when currentEntry changes
   useEffect(() => {
+    activeEntryIdRef.current = currentEntry?.id || `entry_${Date.now()}`;
+
     if (currentEntry) {
       setTitle(currentEntry.title || '');
       setCategory(currentEntry.category || 'personal');
@@ -149,7 +156,7 @@ export const EntryEditor: React.FC<EntryEditorProps> = ({
     setSaveErrorMessage(null);
 
     const now = new Date().toISOString();
-    const activeId = currentEntry?.id || `entry_${Date.now()}`;
+    const activeId = activeEntryIdRef.current;
     const autoTitle =
       updatedTitle ||
       title ||
